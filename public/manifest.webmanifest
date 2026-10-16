@@ -2,8 +2,23 @@
   "name": "Staywise Hotel Booking",
   "short_name": "Staywise",
   "start_url": "/",
+  "id": "/",
   "display": "standalone",
   "background_color": "#fbfaf6",
   "theme_color": "#0f766e",
-  "description": "An accessible hotel booking demo application"
+  "description": "An accessible, responsive hotel room booking web application.",
+  "icons": [
+    {
+      "src": "/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }

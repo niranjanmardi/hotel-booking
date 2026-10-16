@@ -1,9 +1,16 @@
+// ============================================================================
+// UNIT 3 - EXPERIMENT 4a: Login & Register components using controlled components
+// UNIT 3 - EXPERIMENT 4f: Form validation (required fields, email, password)
+// UNIT 4 - EXPERIMENT 3e, 3f: Retrieve reservation history (GET /reservations) & cancellation (DELETE)
+// ============================================================================
+
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   ArrowRight,
   LockKeyhole,
   LogIn,
+  UserPlus,
   Trash2,
   CalendarDays,
   CheckCircle2,
@@ -12,54 +19,85 @@ import { useAuth } from "../context/AuthContext";
 import { useEffect } from "react";
 import { apiRequest } from "../services/api";
 import { Loading, ErrorMessage } from "../components/UI";
+
 export function Login() {
-  const { user, login } = useAuth(),
-    navigate = useNavigate(),
-    params = new URLSearchParams(useLocation().search),
-    [email, setEmail] = useState("demo@staywise.com"),
-    [password, setPassword] = useState("travel123"),
-    [error, setError] = useState(""),
-    [loading, setLoading] = useState(false);
+  const { user, login, register } = useAuth();
+  const navigate = useNavigate();
+  const params = new URLSearchParams(useLocation().search);
+  const [isRegister, setIsRegister] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("demo@staywise.com");
+  const [password, setPassword] = useState("travel123");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   if (user)
     return (
       <div className="page-shell">
         <div className="empty-state">
           <h3>You’re already signed in</h3>
+          <p>Welcome back, <strong>{user.name}</strong>!</p>
           <button className="button" onClick={() => navigate("/hotels")}>
             Explore stays <ArrowRight size={16} />
           </button>
         </div>
       </div>
     );
+
   const submit = async (e) => {
     e.preventDefault();
+    setError("");
     setLoading(true);
     try {
-      await login(email, password);
+      if (isRegister) {
+        // [UNIT 4 - EXP 4a]: Register new account
+        await register(name, email, password);
+      } else {
+        // [UNIT 3 - EXP 4a & UNIT 4 - EXP 4a]: Login user
+        await login(email, password);
+      }
+      // [UNIT 3 - EXP 4e]: Redirect to requested booking page after successful login
       navigate(params.get("redirect") || "/bookings");
-    } catch (e) {
-      setError(e.message);
+    } catch (err) {
+      setError(err.message || "Authentication failed");
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <div className="auth-page">
       <div className="auth-art">
-        <span className="kicker">Welcome back</span>
-        <h1>Your next good stay is closer than you think.</h1>
+        <span className="kicker">{isRegister ? "Join Staywise" : "Welcome back"}</span>
+        <h1>{isRegister ? "Start your journey with curated stays." : "Your next good stay is closer than you think."}</h1>
         <p>
-          Sign in to see reservations, manage details and keep your plans in one
-          place.
+          {isRegister
+            ? "Create an account to manage your reservations, save preferences, and unlock exclusive rates."
+            : "Sign in to see reservations, manage details and keep your plans in one place."}
         </p>
       </div>
       <form className="auth-card" onSubmit={submit}>
         <div className="auth-icon">
-          <LockKeyhole size={22} />
+          {isRegister ? <UserPlus size={22} /> : <LockKeyhole size={22} />}
         </div>
-        <h2>Sign in to Staywise</h2>
-        <p>Use the demo details or enter your own.</p>
+        <h2>{isRegister ? "Create your account" : "Sign in to Staywise"}</h2>
+        <p>{isRegister ? "Fill in your details below to register." : "Use the demo details or enter your own account."}</p>
         {error && <div className="form-error">{error}</div>}
+
+        {isRegister && (
+          <label>
+            Full Name
+            <input
+              className="input"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Aarav Mehta"
+              required
+            />
+          </label>
+        )}
+
         <label>
           Email address
           <input
@@ -67,6 +105,7 @@ export function Login() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
             required
           />
         </label>
@@ -77,19 +116,44 @@ export function Login() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="Minimum 6 characters"
             required
           />
         </label>
         <button className="button full-button" disabled={loading}>
-          {loading ? "Signing in..." : "Sign in"} <LogIn size={16} />
+          {loading
+            ? (isRegister ? "Creating account..." : "Signing in...")
+            : (isRegister ? "Create account" : "Sign in")}{" "}
+          {isRegister ? <UserPlus size={16} /> : <LogIn size={16} />}
         </button>
+
+        <div style={{ textAlign: "center", marginTop: "16px" }}>
+          <button
+            type="button"
+            className="text-button"
+            style={{ fontSize: "12px", color: "var(--teal)" }}
+            onClick={() => {
+              setIsRegister(!isRegister);
+              setError("");
+            }}
+          >
+            {isRegister
+              ? "Already have an account? Sign in"
+              : "Don't have an account? Create an account"}
+          </button>
+        </div>
+
         <small className="demo-hint">
-          Demo: any valid email + password with 6+ characters
+          {isRegister
+            ? "Your account will be saved and you can log in anytime."
+            : "Demo: demo@staywise.com (pass: travel123) or any registered user."}
         </small>
       </form>
     </div>
   );
 }
+
+// [UNIT 4 - EXPERIMENT 3e, 3f]: Reservation History and Cancellation (CRUD)
 export function Bookings() {
   const { user } = useAuth(),
     [data, setData] = useState([]),

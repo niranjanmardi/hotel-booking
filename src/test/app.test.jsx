@@ -40,6 +40,7 @@ describe('App routes and page exports', () => {
       </Provider>
     );
     expect(screen.getByRole('button', {name: /sign in/i})).toBeInTheDocument();
+    expect(screen.getByText(/Don't have an account\? Create an account/i)).toBeInTheDocument();
   });
 
   test('clearBooking resets state to clean initial defaults', () => {

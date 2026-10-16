@@ -1,4 +1,21 @@
-import {useMemo,useState} from 'react';import {Link,useLocation,useNavigate} from 'react-router-dom';import {useDispatch,useSelector} from 'react-redux';import {ArrowLeft,ArrowRight,CalendarDays,Check,CreditCard,UserRound} from 'lucide-react';import {clearBooking,selectTotals,updateDates,updateGuest,updateGuests,updatePayment} from '../store/store';import {Stepper} from '../components/UI';import {apiRequest} from '../services/api';import {useAuth} from '../context/AuthContext'
+// ============================================================================
+// UNIT 3 - EXPERIMENT 1b: useState for guest details & booking criteria
+// UNIT 3 - EXPERIMENT 1h: Form validation (name, email, phone, dates)
+// UNIT 3 - EXPERIMENT 3g: Programmatic navigation with useNavigate()
+// UNIT 3 - EXPERIMENT 4f: Form validation for reservation & payment method
+// UNIT 4 - EXPERIMENT 3b: Create hotel reservation (POST /reservations)
+// ============================================================================
+
+import {useMemo,useState} from 'react';
+import {Link,useLocation,useNavigate} from 'react-router-dom';
+import {useDispatch,useSelector} from 'react-redux';
+import {ArrowLeft,ArrowRight,CalendarDays,Check,CreditCard,UserRound} from 'lucide-react';
+import {clearBooking,selectTotals,updateDates,updateGuest,updateGuests,updatePayment} from '../store/store';
+import {Stepper} from '../components/UI';
+import {apiRequest} from '../services/api';
+import {useAuth} from '../context/AuthContext';
+
+// [UNIT 3 - EXP 1a, 1b & EXP 3e]: Guest Details step in booking flow
 export function BookingGuest(){
   const dispatch=useDispatch(),navigate=useNavigate(),b=useSelector(s=>s.booking);
   if(!b.hotel||!b.room)return <RedirectCard/>;

@@ -1,4 +1,17 @@
-import {useEffect,useMemo,useState} from 'react';import {useLocation,useNavigate} from 'react-router-dom';import {SlidersHorizontal,Search,MapPin} from 'lucide-react';import {apiRequest} from '../services/api';import {filterHotels} from '../services/search';import {HotelCard,Loading,ErrorMessage} from '../components/UI'
+// ============================================================================
+// UNIT 3 - EXPERIMENT 1b: useState for criteria, rating, and max price filters
+// UNIT 3 - EXPERIMENT 1c: useEffect to load hotel data
+// UNIT 3 - EXPERIMENT 1e & 2e: useMemo for efficient filtered hotel list
+// UNIT 3 - EXPERIMENT 2h: Conditional rendering ("No hotels available", loading, error)
+// ============================================================================
+
+import {useEffect,useMemo,useState} from 'react';
+import {useLocation,useNavigate} from 'react-router-dom';
+import {SlidersHorizontal,Search,MapPin} from 'lucide-react';
+import {apiRequest} from '../services/api';
+import {filterHotels} from '../services/search';
+import {HotelCard,Loading,ErrorMessage} from '../components/UI';
+
 export default function Hotels(){
   const navigate=useNavigate();
   const location=useLocation();

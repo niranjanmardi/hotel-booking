@@ -1,3 +1,10 @@
+// ============================================================================
+// UNIT 3 - EXPERIMENT 3: React Router, Dynamic Routing (/hotel/:id), Nested Routing (/booking, Outlet)
+// UNIT 3 - EXPERIMENT 4c, 4d, 4e: ProtectedRoute with authentication guards & login redirection
+// UNIT 3 - EXPERIMENT 4g: ErrorBoundary catching runtime rendering errors
+// UNIT 5 - EXPERIMENT 2a, 2b: Code Splitting & Lazy Loading (React.lazy + Suspense)
+// ============================================================================
+
 import {BrowserRouter,Routes,Route,Navigate,useLocation,Outlet} from 'react-router-dom';
 import {Suspense,lazy,Component} from 'react';
 import Layout from './components/Layout';
