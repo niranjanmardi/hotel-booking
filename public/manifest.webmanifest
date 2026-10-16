@@ -1,0 +1,9 @@
+{
+  "name": "Staywise Hotel Booking",
+  "short_name": "Staywise",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbfaf6",
+  "theme_color": "#0f766e",
+  "description": "An accessible hotel booking demo application"
+}

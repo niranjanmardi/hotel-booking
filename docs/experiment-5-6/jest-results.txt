@@ -1,0 +1,17 @@
+
+> staywise-hotel-booking@1.0.0 test
+> jest --runInBand --runInBand
+
+(node:7915) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+PASS src/services/api.test.js
+PASS src/services/search.test.js
+PASS src/components/UI.test.jsx
+PASS src/store/store.test.js
+PASS src/test/pwa.test.js
+
+Test Suites: 5 passed, 5 total
+Tests:       9 passed, 9 total
+Snapshots:   0 total
+Time:        5.51 s
+Ran all test suites.
